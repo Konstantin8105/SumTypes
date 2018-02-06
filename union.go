@@ -1,4 +1,4 @@
-package main
+package union
 
 /*
 #include "stdio.h"
@@ -64,9 +64,6 @@ import (
 	"fmt"
 	"unsafe"
 )
-
-func main() {
-}
 
 func CInit() {
 	fmt.Println("int   = ", int32(C.get_sizeof_int()))
