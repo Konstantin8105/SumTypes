@@ -98,6 +98,10 @@ type unionGo struct {
 	memory unsafe.Pointer
 }
 
+func (u *unionGo) i() *[2]int32 {
+	return (*[2]int32)(u.memory)
+}
+
 var un unionGo
 
 func GoInit() {
@@ -118,4 +122,11 @@ func TestCtoGo(t *testing.T) {
 	fmt.Println("4: ", GetI(), *(*[2]int32)(un.memory))    // int[2]
 	fmt.Println("5: ", GetSh(), *(*[16]uint8)(un.memory))  // short[4]
 	fmt.Println("6: ", GetD(), *(*float64)(un.memory))     // double
+
+	(*un.i())[0] = -90000
+	fmt.Println("A0: ", (*[2]int32)(un.memory)[0]) // int
+	fmt.Println("A1: ", (*[2]int32)(un.memory)[1]) // int
+	fmt.Println("A2: ", *(*int64)(un.memory))      // long
+	fmt.Println("A5: ", *(*[16]uint8)(un.memory))  // short[4]
+
 }
