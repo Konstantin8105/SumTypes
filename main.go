@@ -53,14 +53,26 @@ double getD()
 {
 	return u.d;
 }
+
+int get_sizeof_int    ()  { return sizeof(    int)*8;}
+int get_sizeof_char   ()  { return sizeof(   char)*8;}
+int get_sizeof_short  ()  { return sizeof(  short)*8;}
+int get_sizeof_long   ()  { return sizeof(   long)*8;}
 */
 import "C"
-import "unsafe"
+import (
+	"fmt"
+	"unsafe"
+)
 
 func main() {
 }
 
 func CInit() {
+	fmt.Println("int   = ", int32(C.get_sizeof_int()))
+	fmt.Println("short = ", int32(C.get_sizeof_short()))
+	fmt.Println("long  = ", int32(C.get_sizeof_long()))
+	fmt.Println("char  = ", int32(C.get_sizeof_char()))
 	C.init()
 }
 

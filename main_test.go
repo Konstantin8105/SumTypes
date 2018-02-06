@@ -78,7 +78,8 @@ func TestPointers(t *testing.T) {
 	var ind *[2]int32
 	ind = (*[2]int32)(uni.memory)
 	//ind[0] += 12222 // changes
-	(*[2]int32)(uni.memory)[0] += 12222
+	(*[2]int32)(uni.memory)[0] += 56980
+	(*[2]int32)(uni.memory)[1] += 12222
 
 	var res int64
 	res = *((*int64)(unsafe.Pointer(ind)))
