@@ -61,51 +61,31 @@ func TestValuesAndArray(t *testing.T) {
 	}
 }
 
-// unionValuesByInterface - C code example:
+// unionPointers - C code example:
 // union {
-// 		long i;
+// 		long * i;
+// 		int  * j[2];
 // };
-type unionValuesByInterface struct {
-	memory interface{}
+type unionPointers struct {
+	memory unsafe.Pointer
 }
 
-func TestValuesByInterface(t *testing.T) {
-	var uni unionValuesByInterface
+func TestPointers(t *testing.T) {
+	var uni unionPointers
 
 	var inp int64 = -1234567890
-	uni.memory = (interface{})(inp)
+	uni.memory = unsafe.Pointer(&inp)
+	var ind *[2]int32
+	ind = (*[2]int32)(uni.memory)
+	ind[0] += 12222 // changes
 	var res int64
-	res = (*((*interface{})(unsafe.Pointer(&uni.memory)))).(int64)
+	res = *((*int64)(unsafe.Pointer(ind)))
 
 	// Output
-	fmt.Printf("inp = %+v\n", inp)
-	fmt.Printf("uni = %+v\n", uni)
-	fmt.Printf("res = %+v\n", res)
-	if res != inp {
-		t.Fatalf("Result is not same. %v != %v", inp, res)
-	}
-}
-
-// unionWithArray - C code example:
-// union {
-// 	int i[2];
-// };
-type unionWithArray struct {
-	memory [8]byte
-}
-
-func TestArray(t *testing.T) {
-	var uni unionWithArray
-
-	inp := [2]int32{-1234567, 56}
-	uni.memory = *((*[8]byte)(unsafe.Pointer(&inp)))
-	var res [2]int32
-	res = *((*[2]int32)(unsafe.Pointer(&uni.memory)))
-
-	// Output
-	fmt.Printf("inp = %+v\n", inp)
-	fmt.Printf("uni = %+v\n", uni)
-	fmt.Printf("res = %+v\n", res)
+	fmt.Printf("inp = %#v\n", inp)
+	fmt.Printf("ind = %#v\n", ind)
+	fmt.Printf("uni = %#v\n", uni)
+	fmt.Printf("res = %#v\n", res)
 	if res != inp {
 		t.Fatalf("Result is not same. %v != %v", inp, res)
 	}
